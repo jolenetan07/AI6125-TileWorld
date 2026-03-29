@@ -4,10 +4,6 @@
 
 The Tileworld project is a Java-based multi-agent simulation built on the MASON toolkit (a discrete-event simulation library). It models a grid-based environment where agents (robots) must collect tiles (resources) and deposit them into holes to earn points (rewards). The simulation includes obstacles, fuel stations for refueling, and a time limit. Agents can sense their surroundings, plan actions, communicate, and maintain memory. The goal is to implement intelligent agents that maximize collective rewards through coordination and efficient planning.
 
-The codebase is organized into packages under `src/tileworld/`. It includes compiled `.class` files in `bin/` (generated from the source), but you'll work primarily in `src/`. The simulation runs via `TileworldMain.java`, which provides headless (non-GUI) modes for testing and GUI mode via `TWGUI.java`. Agents are instantiated in the environment, and the simulation steps through time, calling each agent's `sense()`, `communicate()`, `think()`, and `act()` methods in sequence.
-
-Below, I'll explain each file/package in detail, based on their purpose, key components, and how they fit into the simulation. I'll also highlight where to find everything and where to edit for the project requirements (implementing planning, memory, communication, and custom agents). Note: Do not modify the `environment/` package or methods like `increaseReward()` in `TWEnvironment.java` (only callable via `putTileInHole()` in agents), as this violates rules and can lead to score penalties.
-
 #### Root-Level Files (`src/tileworld/`)
 - **Parameters.java**: Defines global simulation parameters (e.g., grid size `xDimension`/`yDimension`, sensor range, fuel levels, object spawn rates, end time). Used to configure the environment. Edit here if you need to tweak defaults (e.g., for testing), but avoid changing core logic.
 - **Parameters2.java**: Appears to be an alternative or extended parameter set (possibly for variations). Similar to `Parameters.java`; check if it's used in your setup.
@@ -78,7 +74,7 @@ Handles pathfinding and planning. Critical for high rewards—agents need effici
 - **Memory Module (Optional)**: Edit/create in `agent/`. Extend `TWAgentWorkingMemory` (e.g., add maps for beliefs or decay logic). Instantiate your custom memory in the agent's constructor.
 - **Communication Module (Optional)**: Edit/create in `agent/. Extend `Message` for structured data (e.g., JSON or custom fields). Override `communicate()` to send info (e.g., agent positions). In `think()`, call `getEnvironment().getMessages()` to read others' broadcasts for coordination.
 - **Custom Agents**: Create new files in `agent/` extending `TWAgent` (e.g., `TeamAgent1.java`). Override `communicate()`, `think()`, and `act()`. Use existing methods for actions. Each team member implements one; they run together in the environment.
-- **General Tips**: 
+- **General**: 
   - Test in `TileworldMain.java` (e.g., modify `main()` to instantiate your agents instead of `SimpleTWAgent`).
   - Use `TWEnvironment` methods for queries (e.g., grid access), but don't alter it.
   - For high rewards: Focus on planning (e.g., A* to nearest tile/hole), memory (track object locations), and communication (share goals to avoid conflicts).
