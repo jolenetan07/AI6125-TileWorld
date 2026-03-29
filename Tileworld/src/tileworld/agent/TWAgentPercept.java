@@ -1,6 +1,6 @@
-
 package tileworld.agent;
 
+import java.io.Serializable;
 import tileworld.environment.TWEntity;
 
 /**
@@ -19,7 +19,7 @@ import tileworld.environment.TWEntity;
  * and t: the time at which the object was seen
  *
  */
-public class TWAgentPercept{
+public class TWAgentPercept implements Serializable{
 
 
     final int BEFORE = -1;

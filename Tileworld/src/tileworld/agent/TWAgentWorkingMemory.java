@@ -1,5 +1,6 @@
 package tileworld.agent;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,17 +39,17 @@ import tileworld.environment.TWTile;
  *         the agent can remember is specified as MAX_TIME. Any memories beyond
  *         this are automatically removed.
  */
-public class TWAgentWorkingMemory {
+public class TWAgentWorkingMemory implements Serializable {
 
 	/**
 	 * Access to Scedule (TWEnvironment) so that we can retrieve the current timestep of the simulation.
 	 */
-	private Schedule schedule;
+	private transient Schedule schedule;
 	private TWAgent me;
 	private final static int MAX_TIME = 10;
 	private final static float MEM_DECAY = 0.5f;
 
-	private ObjectGrid2D memoryGrid;
+	private transient ObjectGrid2D memoryGrid;
 
 	/*
 	 * This was originally a queue ordered by the time at which the fact was observed.

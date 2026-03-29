@@ -15,7 +15,7 @@ import sun.font.TrueTypeFont;
 import tileworld.Parameters;
 import tileworld.TWGUI;
 import tileworld.agent.Message;
-import tileworld.agent.SimpleTWAgent;
+import tileworld.agent.GreedyReactiveAgent;
 import tileworld.agent.TWAgent;
 
 /**
@@ -46,9 +46,9 @@ public class TWEnvironment extends SimState implements Steppable {
     private ObjectGrid2D objectGrid;
     private ObjectGrid2D agentGrid;
    
-    private TWObjectCreator<TWTile> tileCreator;
-    private TWObjectCreator<TWHole> holeCreator;
-    private TWObjectCreator<TWObstacle> obstacleCreator;
+    private transient TWObjectCreator<TWTile> tileCreator;
+    private transient TWObjectCreator<TWHole> holeCreator;
+    private transient TWObjectCreator<TWObstacle> obstacleCreator;
     /**
      * Assumed all objects have same lifeTime now.
      */
@@ -109,9 +109,9 @@ public class TWEnvironment extends SimState implements Steppable {
         
         //Now we create some agents
         Int2D pos = this.generateRandomLocation();
-        createAgent(new SimpleTWAgent("agent1", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+        createAgent(new GreedyReactiveAgent("agent1", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
         pos = this.generateRandomLocation();
-        createAgent(new SimpleTWAgent("agent2", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+        createAgent(new GreedyReactiveAgent("agent2", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
         
 //        
         //create the fueling station
@@ -168,6 +168,11 @@ public class TWEnvironment extends SimState implements Steppable {
     public void step(SimState state) {
         
     	double time = state.schedule.getTime();
+        if (tileCreator == null) {
+            this.tileCreator = new TWObjectCreator<TWTile>(Parameters.tileMean, Parameters.tileDev, tiles, this.random, new TWTile(), this);
+            this.holeCreator = new TWObjectCreator<TWHole>(Parameters.holeMean, Parameters.holeDev, holes, this.random, new TWHole(), this);
+            this.obstacleCreator = new TWObjectCreator<TWObstacle>(Parameters.obstacleMean, Parameters.obstacleDev, obstacles, this.random, new TWObstacle(), this);
+        }
         // create new objects
         createTWObjects(time);
         // remove old objects (dead ones)

@@ -118,7 +118,12 @@ public class TileworldMain {
                 System.out.println("Steps: " + steps + " Time: " + tw.schedule.time());
                 String s = steps + ".TWEnvironment.checkpoint";
                 System.out.println("Checkpointing to file: " + s);
-                tw.writeToCheckpoint(new java.io.File(s));
+                try {
+                    tw.writeToCheckpoint(new java.io.File(s));
+                    System.out.println("Checkpoint saved successfully.");
+                } catch (Exception e) {
+                    System.out.println("Error saving checkpoint: " + e.getMessage());
+                }
             }
         }
         tw.finish();

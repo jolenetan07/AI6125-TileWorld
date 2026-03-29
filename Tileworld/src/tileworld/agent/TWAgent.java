@@ -58,11 +58,11 @@ public abstract class TWAgent extends TWEntity implements Steppable {
     /**
      * Sensor class, used for getting information about the environment.
      */
-    protected TWAgentSensor sensor;
+    protected transient TWAgentSensor sensor;
     /**
      * Memory which stores sensed facts in the form of tuples (see TWAgentMemoryFact)
      */
-    protected TWAgentWorkingMemory memory;
+    protected transient TWAgentWorkingMemory memory;
 
     //THE THREE METHODS YOU SHOULD EXTEND - SENSE, THINK, ACT
     /**
@@ -70,6 +70,12 @@ public abstract class TWAgent extends TWEntity implements Steppable {
      *
      */
     public void sense() {
+        if (memory == null) {
+            memory = new TWAgentWorkingMemory(this, this.getEnvironment().schedule, this.getEnvironment().getxDimension(), this.getEnvironment().getyDimension());
+        }
+        if (sensor == null) {
+            sensor = new TWAgentSensor(this, Parameters.defaultSensorRange);
+        }
         sensor.sense();
     }
     

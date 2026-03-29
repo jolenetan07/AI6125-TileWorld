@@ -1,7 +1,7 @@
-/**
- * 
- */
 package tileworld.environment;
+
+import java.io.Serializable;
+
 import sim.util.Int2D;
 import tileworld.exceptions.CellBlockedException;
 import tileworld.exceptions.InsufficientFuelException;
@@ -18,12 +18,9 @@ import tileworld.exceptions.InsufficientFuelException;
  * Description:
  *
  * Base class from which all entities in the Tileworld inherit.
- * TWObject is a sub-class of this, which is used to specify something with
- * a lifetime (i.e., Tile, Hole, Obstacle)
+ *
  */
-
-
-public abstract class TWEntity{
+public abstract class TWEntity implements Serializable{
 
     private TWEnvironment environment;
 
