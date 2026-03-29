@@ -16,6 +16,7 @@ Below, I'll explain each file/package in detail, based on their purpose, key com
   - `main4()`: Single run with a fixed seed.
   - `main2()`: Handles checkpoints for resuming simulations.
   - `main3()`: Uses MASON's `doLoop()` for advanced headless runs with command-line args (e.g., repeats, seeds, checkpoints).
+    - In the Program arguments field, enter the desired args, e.g., -seed 12345 -for 1000 -time 100 (runs with seed 12345 for 1000 steps, printing every 100 steps).
   - This file is for running/testing; don't edit it unless adding custom run modes. Use it to launch simulations and observe agent performance.
 - **TWGUI.java**: Provides the graphical interface for the simulation (using MASON's GUIState). Displays the grid, agents, objects, and inspectors. Not for editing; run via this for visual debugging.
 
