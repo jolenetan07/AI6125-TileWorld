@@ -8,6 +8,7 @@ import sim.util.IntBag;
 import tileworld.Parameters;
 import tileworld.environment.TWEntity;
 import tileworld.environment.TWObstacle;
+import tileworld.environment.TWFuelStation;
 
 /**
  * Working memory for a memory-based agent.
@@ -109,6 +110,52 @@ public class MemoryBasedWorkingMemory extends TWAgentWorkingMemory {
         return best;
     }
 
+    /**
+     * Returns the nearest unseen (or stalest seen) cell whose x-coordinate lies
+     * in [minX, maxX]. Returns null if the region is fully and freshly covered.
+     * Used by CoordinatedTeamworkAgent for zone-biased exploration.
+     */
+    public Int2D getExplorationTargetInRegion(int minX, int maxX) {
+        double now = getCurrentSimulationTime();
+        Int2D bestUnseen = null;
+        double bestUnseenDistance = Double.MAX_VALUE;
+
+        for (int x = minX; x <= maxX; x++) {
+            for (int y = 0; y < height; y++) {
+                if (seenCells[x][y]) continue;
+                if (isKnownBlocked(x, y, now)) continue;
+                double distance = me.getDistanceTo(x, y);
+                if (bestUnseen == null || distance < bestUnseenDistance) {
+                    bestUnseen = new Int2D(x, y);
+                    bestUnseenDistance = distance;
+                }
+            }
+        }
+        if (bestUnseen != null) {
+            return bestUnseen;
+        }
+
+        // Zone fully explored — return the stalest cell in the zone to re-sweep
+        Int2D stalestCell = null;
+        double oldestTimestamp = Double.MAX_VALUE;
+        double bestDistance = Double.MAX_VALUE;
+        for (int x = minX; x <= maxX; x++) {
+            for (int y = 0; y < height; y++) {
+                if (!seenCells[x][y]) continue;
+                if (isKnownBlocked(x, y, now)) continue;
+                double distance = me.getDistanceTo(x, y);
+                double timestamp = lastSeenTimestep[x][y];
+                if (stalestCell == null || timestamp < oldestTimestamp
+                        || (timestamp == oldestTimestamp && distance < bestDistance)) {
+                    stalestCell = new Int2D(x, y);
+                    oldestTimestamp = timestamp;
+                    bestDistance = distance;
+                }
+            }
+        }
+        return stalestCell;
+    }
+
     public Int2D getExplorationTarget() {
         double now = getCurrentSimulationTime();
         Int2D bestUnseen = null;
@@ -194,6 +241,9 @@ public class MemoryBasedWorkingMemory extends TWAgentWorkingMemory {
     }
 
     private boolean isExpired(int x, int y, double now) {
+        if (rememberedObjects[x][y] instanceof TWFuelStation) {
+            return false;
+        }
         return rememberedObjects[x][y] != null && now - lastSeenTimestep[x][y] > Parameters.lifeTime;
     }
 

@@ -18,6 +18,7 @@ import tileworld.agent.Message;
 import tileworld.agent.GreedyReactiveAgent;
 import tileworld.agent.MemoryBasedAgent;
 import tileworld.agent.CommunicationAgent;
+import tileworld.agent.CoordinatedTeamworkAgent;
 import tileworld.agent.FuelAwareAgent;
 import tileworld.agent.UtilityBasedPlannerAgent;
 import tileworld.agent.TWAgent;
@@ -111,21 +112,24 @@ public class TWEnvironment extends SimState implements Steppable {
 
         schedule.scheduleRepeating(this, 1, 1.0);
         
-        //Now we create some agents - 5 agent lineup for team comparison
+        //Now we create five coordinated teamwork agents with unique names
         Int2D pos = this.generateRandomLocation();
-        createAgent(new GreedyReactiveAgent("GreedyAgent", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+        createAgent(new CoordinatedTeamworkAgent("agent1", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
         
         pos = this.generateRandomLocation();
-        createAgent(new MemoryBasedAgent("MemoryAgent", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+        createAgent(new CoordinatedTeamworkAgent("agent2", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
         
         pos = this.generateRandomLocation();
-        createAgent(new FuelAwareAgent("FuelAwareAgent", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+        createAgent(new CoordinatedTeamworkAgent("agent3", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
         
         pos = this.generateRandomLocation();
-        createAgent(new UtilityBasedPlannerAgent("UtilityAgent", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+        createAgent(new CoordinatedTeamworkAgent("agent4", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
         
         pos = this.generateRandomLocation();
-        createAgent(new CommunicationAgent("CommunicationAgent", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+        createAgent(new CoordinatedTeamworkAgent("agent5", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+
+        pos = this.generateRandomLocation();
+        createAgent(new CoordinatedTeamworkAgent("agent6", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
 
 //        
         //create the fueling station
