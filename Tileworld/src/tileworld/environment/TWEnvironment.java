@@ -18,6 +18,8 @@ import tileworld.agent.Message;
 import tileworld.agent.GreedyReactiveAgent;
 import tileworld.agent.MemoryBasedAgent;
 import tileworld.agent.CommunicationAgent;
+import tileworld.agent.FuelAwareAgent;
+import tileworld.agent.UtilityBasedPlannerAgent;
 import tileworld.agent.TWAgent;
 
 /**
@@ -118,6 +120,16 @@ public class TWEnvironment extends SimState implements Steppable {
         //createAgent(new GreedyReactiveAgent("agent2", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
         //createAgent(new MemoryBasedAgent("agent2", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
         createAgent(new CommunicationAgent("agent2", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+        createAgent(new FuelAwareAgent("agent1", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+        pos = this.generateRandomLocation();
+        //createAgent(new GreedyReactiveAgent("agent2", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+        //createAgent(new MemoryBasedAgent("agent2", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+        createAgent(new FuelAwareAgent("agent2", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+        createAgent(new UtilityBasedPlannerAgent("agent1", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+        pos = this.generateRandomLocation();
+        //createAgent(new GreedyReactiveAgent("agent2", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+        //createAgent(new MemoryBasedAgent("agent2", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+        createAgent(new UtilityBasedPlannerAgent("agent2", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
 
 //        
         //create the fueling station
