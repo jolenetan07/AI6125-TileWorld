@@ -111,25 +111,21 @@ public class TWEnvironment extends SimState implements Steppable {
 
         schedule.scheduleRepeating(this, 1, 1.0);
         
-        //Now we create some agents
+        //Now we create some agents - 5 agent lineup for team comparison
         Int2D pos = this.generateRandomLocation();
-        //createAgent(new GreedyReactiveAgent("agent1", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
-        //createAgent(new MemoryBasedAgent("agent1", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
-        createAgent(new CommunicationAgent("agent1", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+        createAgent(new GreedyReactiveAgent("GreedyAgent", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+        
         pos = this.generateRandomLocation();
-        //createAgent(new GreedyReactiveAgent("agent2", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
-        //createAgent(new MemoryBasedAgent("agent2", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
-        createAgent(new CommunicationAgent("agent2", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
-        createAgent(new FuelAwareAgent("agent1", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+        createAgent(new MemoryBasedAgent("MemoryAgent", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+        
         pos = this.generateRandomLocation();
-        //createAgent(new GreedyReactiveAgent("agent2", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
-        //createAgent(new MemoryBasedAgent("agent2", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
-        createAgent(new FuelAwareAgent("agent2", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
-        createAgent(new UtilityBasedPlannerAgent("agent1", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+        createAgent(new FuelAwareAgent("FuelAwareAgent", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+        
         pos = this.generateRandomLocation();
-        //createAgent(new GreedyReactiveAgent("agent2", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
-        //createAgent(new MemoryBasedAgent("agent2", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
-        createAgent(new UtilityBasedPlannerAgent("agent2", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+        createAgent(new UtilityBasedPlannerAgent("UtilityAgent", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
+        
+        pos = this.generateRandomLocation();
+        createAgent(new CommunicationAgent("CommunicationAgent", pos.getX(), pos.getY(), this, Parameters.defaultFuelLevel));
 
 //        
         //create the fueling station
